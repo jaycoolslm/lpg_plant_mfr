@@ -7,9 +7,26 @@
     let chart: any;
     let imgBase64: string;
 
+    function generateRandomString(length: number) {
+        let result = "";
+        const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const charactersLength = characters.length;
+
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(
+                Math.floor(Math.random() * charactersLength)
+            );
+        }
+
+        return result;
+    }
+
+    const randomString = generateRandomString(10); // Generates a random string with 10 characters
+
     $: {
         if (data.length) {
-            const ctx = document.getElementById("individualMassFlow");
+            const ctx = document.getElementById(randomString);
             if (chart) chart.destroy();
             // @ts-ignore
             chart = new Chart(ctx, {
@@ -38,7 +55,7 @@
     {#if imgBase64}
         <DownloadChart {imgBase64} />
     {/if}
-    <canvas id="individualMassFlow" />
+    <canvas id={randomString} />
 </div>
 
 <style>

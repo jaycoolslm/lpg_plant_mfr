@@ -10,15 +10,21 @@
         handleCatalystConc,
     } from "./functions";
 
+    interface IndividualMassFlow {
+        label: string;
+        data: number[];
+        borderWidth: number;
+    }
+
     let iterations: number = 5;
 
     let naohConc: number[] = [];
     let catalystConc: number[] = [];
-    let individualMassFlow: {
-        label: string;
-        data: number[];
-        borderWidth: number;
-    }[] = [];
+    let inCausticSettler: IndividualMassFlow[] = [];
+    let inOxidiser: IndividualMassFlow[] = [];
+    let inDisulphideSettler: IndividualMassFlow[] = [];
+    let inBufferTank: IndividualMassFlow[] = [];
+    let inExtractor: IndividualMassFlow[] = [];
 
     const iterate = () => {
         // console.clear();
@@ -27,8 +33,27 @@
 
         naohConc = handleNaohConc(values, iterations);
         catalystConc = handleCatalystConc(values);
-        individualMassFlow = handleIndividualMassFlow(values, iterations);
-        console.log(individualMassFlow);
+        inExtractor = handleIndividualMassFlow(
+            values,
+            iterations,
+            "inExtractor"
+        );
+        inCausticSettler = handleIndividualMassFlow(
+            values,
+            iterations,
+            "inCausticSettler"
+        );
+        inOxidiser = handleIndividualMassFlow(values, iterations, "inOxidiser");
+        inDisulphideSettler = handleIndividualMassFlow(
+            values,
+            iterations,
+            "inDisulphideSettler"
+        );
+        inBufferTank = handleIndividualMassFlow(
+            values,
+            iterations,
+            "inBufferTank"
+        );
     };
 </script>
 
@@ -68,5 +93,9 @@
 
     <NaohConc data={naohConc} />
     <CatalystConc data={catalystConc} />
-    <IndividualMassFlow data={individualMassFlow} {iterations} />
+    <IndividualMassFlow data={inExtractor} {iterations} />
+    <IndividualMassFlow data={inCausticSettler} {iterations} />
+    <IndividualMassFlow data={inOxidiser} {iterations} />
+    <IndividualMassFlow data={inDisulphideSettler} {iterations} />
+    <IndividualMassFlow data={inBufferTank} {iterations} />
 </El>

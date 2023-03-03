@@ -34,17 +34,17 @@ type MassFlow = {
 
 }[]
 
-export const handleIndividualMassFlow = (values: any, iterations: number): MassFlow => {
+export const handleIndividualMassFlow = (values: any, iterations: number, unit: string): MassFlow => {
     let massFlow: MassFlow = [];
     Object.entries(values).forEach(([key, value]: any) => {
-        if (value.some((e: any) => e.inBufferTank)) {
+        if (value.some((e: any) => e[unit])) {
             let massFlowObj: any = {
-                label: key + " into buffer tank / kg h-1",
+                label: key + unit + " / kg h-1",
                 data: new Array(iterations).fill(0),
                 borderWidth: 1,
             };
             value.forEach((v: any, index: number) => {
-                massFlowObj.data[index] = v.inBufferTank;
+                massFlowObj.data[index] = v[unit];
             });
             massFlow.push(massFlowObj);
         }

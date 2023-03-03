@@ -23,6 +23,7 @@ export default (iter: number) => {
     let rshMolInExtractor = rsh.molarFlowRate(254.8697)
     let waterMolInExtractor = water.molarFlowRate(824.941)
     let naohMolInExtractor = naoh.molarFlowRate(118.5440465)
+    let lpgMassInExtractor = 105096.117
     let rssrMolInExtractor = 0
 
 
@@ -61,7 +62,8 @@ export default (iter: number) => {
         rssrArr: {}[] = [],
         airArr: {}[] = [],
         nasrArr: {}[] = [],
-        catalystArr: {}[] = []
+        catalystArr: {}[] = [],
+        sweetLpgArr: {}[] = []
 
     let catalystAdded: number
     for (let i = 0; i < iter; i++) {
@@ -80,6 +82,7 @@ export default (iter: number) => {
         naohObj.inCausticSettler = naoh.massFlowRate(naohMolInCausticSettler)
         rshMolInCausticSettler = rshMolInExtractor - extentExtractor
         rshObj.inCausticSettler = rsh.massFlowRate(rshMolInCausticSettler)
+        sweetLpgArr.push({ inCausticSettler: lpgMassInExtractor })
         // extractor to oxidiser
         waterMolInOxidiser = waterMolInExtractor + extentExtractor
         waterObj.inOxidiser = water.massFlowRate(waterMolInOxidiser)
@@ -141,6 +144,7 @@ export default (iter: number) => {
             rshMolInBufferTank = rsh.molarFlowRate(totalMassFlowRateToBufferTank * maxReentryMercaptide)
             rshObj.inBufferTank = rsh.massFlowRate(rshMolInBufferTank)
             rssrMolInBufferTank = rssr.molarFlowRate(totalMassFlowRateToBufferTank * maxReentryDisulphide)
+            console.log("rssr recycled", rssrMolInBufferTank, "kmol / hr")
             rssrObj.inBufferTank = rsh.massFlowRate(rssrMolInBufferTank)
         } else {
             totalMassFlowRateToBufferTank = water.massFlowRate(waterMolInBufferTank)
@@ -155,7 +159,9 @@ export default (iter: number) => {
             rshMolInBufferTank = rshMolInOxidiser
             rshObj.inBufferTank = rsh.massFlowRate(rshMolInBufferTank)
 
-            rssrMolInBufferTank = rssrMolInOxidiser
+            rssrMolInBufferTank = rssr.molarFlowRate(totalMassFlowRateToBufferTank * maxReentryDisulphide)
+            console.log("rssr recycled", rssrMolInBufferTank, "kmol / hr")
+
             rssrObj.inBufferTank = rssr.massFlowRate(rssrMolInBufferTank)
 
         }
@@ -193,7 +199,8 @@ export default (iter: number) => {
         rssrArr,
         airArr,
         nasrArr,
-        catalystArr
+        catalystArr,
+        sweetLpgArr
     }
 }
 

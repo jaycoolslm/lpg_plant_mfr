@@ -18,7 +18,7 @@
                     labels: data.map((_, i) => `Iteration ${i + 1}`),
                     datasets: [
                         {
-                            label: "Concentration of catalyst in Buffer Tank / weight %",
+                            label: "Concentration of catalyst in Buffer Tank / ppm",
                             data,
                             borderWidth: 1,
                         },
